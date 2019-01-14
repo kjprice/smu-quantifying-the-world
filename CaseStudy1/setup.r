@@ -1,4 +1,6 @@
-local.filepath = '../data/offline.final.trace.txt'
+# local testing
+local.filepath = '../data/offline.final.trace.txt_HEAD'
+#local.filepath = '../data/offline.final.trace.txt'
 
 download.data = function() {
   source.file = 'http://rdatasciencecases.org/Data/offline.final.trace.txt'
@@ -15,12 +17,20 @@ download.data = function() {
 }
 
 load.data = function() {
-  read.delim(local.filepath)
+  readChar(local.filepath, file.info(local.filepath)$size)
+}
+
+transform.row = function(row) {
+  
+}
+
+transform.to.dataframe = function(data) {
+  rows = unlist(strsplit(data, '\n'))
+  ## I left off here - this is not a dataframe yet
+  rows
 }
 
 download.data()
 
 local.data = load.data()
-
-# while testing - TODO: Delete
-local.data = head(local.data)
+local.dataframe = transform.to.dataframe(local.data)
