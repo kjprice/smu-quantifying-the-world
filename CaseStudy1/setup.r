@@ -1,6 +1,8 @@
+local.filepath = '../data/offline.final.trace.txt'
+
 download.data = function() {
   source.file = 'http://rdatasciencecases.org/Data/offline.final.trace.txt'
-  destination.file = '../data/offline.final.trace.txt'
+  destination.file = local.filepath
   
   if (!file.exists(destination.file)) {
     res <- tryCatch(download.file(source.file,
@@ -12,5 +14,13 @@ download.data = function() {
   }
 }
 
+load.data = function() {
+  read.delim(local.filepath)
+}
 
 download.data()
+
+local.data = load.data()
+
+# while testing - TODO: Delete
+local.data = head(local.data)
