@@ -1,1 +1,1 @@
-# smu-quantifying-the-world
+# Quantifying The World
