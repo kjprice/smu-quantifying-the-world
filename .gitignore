@@ -1,3 +1,4 @@
 data/*
 .Rhistory
 .Rapp.history
+.ipynb_checkpoints
