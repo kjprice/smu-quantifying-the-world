@@ -1,18 +1,22 @@
 # local testing
-local.filepath = '../data/offline.final.trace.txt_HEAD'
-#local.filepath = '../data/offline.final.trace.txt'
+server.path = 'http://rdatasciencecases.org/Data'
+local.path = '../data'
+
+file.names = c('offline.final.trace.txt', 'online.final.trace.txt')
 
 download.data = function() {
-  source.file = 'http://rdatasciencecases.org/Data/offline.final.trace.txt'
-  destination.file = local.filepath
   
-  if (!file.exists(destination.file)) {
-    res <- tryCatch(download.file(source.file,
-                                  destfile=destination.file,
-                                  method='auto'),
-                    error=function(e) 1)
-  } else {
-    print('destination file already exists')
+  for (file.name in file.names) {
+    destination.file = file.path(local.path, file.name)
+    server.filepath = file.path(server.path, file.name)
+    if (!file.exists(destination.file)) {
+      res <- tryCatch(download.file(server.filepath,
+                                    destfile=destination.file,
+                                    method='auto'),
+                      error=function(e) 1)
+    } else {
+      print(sprintf('%s  already exists', destination.file))
+    }
   }
 }
 
