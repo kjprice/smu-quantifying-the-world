@@ -20,21 +20,4 @@ download.data = function() {
   }
 }
 
-load.data = function() {
-  readChar(local.filepath, file.info(local.filepath)$size)
-}
-
-transform.row = function(row) {
-  
-}
-
-transform.to.dataframe = function(data) {
-  rows = unlist(strsplit(data, '\n'))
-  ## I left off here - this is not a dataframe yet
-  rows
-}
-
 download.data()
-
-local.data = load.data()
-local.dataframe = transform.to.dataframe(local.data)
