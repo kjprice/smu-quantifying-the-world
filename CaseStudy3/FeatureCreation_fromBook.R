@@ -214,8 +214,12 @@ gsub("[^[:alpha:]]", "", testSubject)
 isYelling = function(msg) {
   if ( "Subject" %in% names(msg$header) ) {
     el = gsub("[^[:alpha:]]", "", msg$header["Subject"])
-    if (nchar(el) > 0) 
-      nchar(gsub("[A-Z]", "", el)) < 1
+    
+    # remove multibyte words
+    ascii_el = iconv(el, 'ASCII', sub='')
+    
+    if (nchar(ascii_el) > 0) 
+      nchar(gsub("[A-Z]", "", ascii_el)) < 1
     else 
       FALSE
   } else 
@@ -420,8 +424,10 @@ funcList = list(
     if (length(grep("html", el)) == 0) return(0)
     
     els = gsub("[[:space:]]", "", msg$body)
-    totchar = sum(nchar(els))
-    totplain = sum(nchar(gsub("<[^<]+>", "", els )))
+    ascii_els = iconv(els, 'ASCII', sub='')
+    
+    totchar = sum(nchar(ascii_els))
+    totplain = sum(nchar(gsub("<[^<]+>", "", ascii_els )))
     100 * (totchar - totplain)/totchar
   }
   ,

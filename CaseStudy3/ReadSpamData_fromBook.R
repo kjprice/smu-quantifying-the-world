@@ -155,12 +155,18 @@ library(tm)
 stopWords = stopwords()
 cleanSW = tolower(gsub("[[:punct:]0-9[:blank:]]+", " ", stopWords))
 SWords = unlist(strsplit(cleanSW, "[[:blank:]]+"))
-SWords = SWords[ nchar(SWords) > 1 ]
+
+# remove multibyte words
+ascii_Swords = iconv(SWords, 'ASCII', sub='')
+
+SWords = SWords[ nchar(ascii_Swords) > 1 ]
 stopWords = unique(SWords)
 
 words = unlist(strsplit(cleanMsg, "[[:blank:]]+"))
 
-words = words[ nchar(words) > 1 ]
+# remove multibyte words
+ascii_words = iconv(words, 'ASCII', sub='')
+words = words[ nchar(ascii_words) > 1 ]
 
 words = words[ !( words %in% stopWords) ]
 head(words)
@@ -177,8 +183,10 @@ findMsgWords =
     
     words = unique(unlist(strsplit(cleanText(msg), "[[:blank:]\t]+")))
     
+    # remove multibyte words
+    ascii_words = iconv(words, 'ASCII', sub='')
     # drop empty and 1 letter words
-    words = words[ nchar(words) > 1]
+    words = words[ nchar(ascii_words) > 1]
     words = words[ !( words %in% stopWords) ]
     invisible(words)
   }
